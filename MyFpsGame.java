@@ -7,19 +7,18 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
-import java.util.ArrayList;
+import Enemy.Enemy;
 
 public class MyFpsGame extends Application{
+    static Enemy enemy = new Enemy();
     static PerspectiveCamera camera = new PerspectiveCamera(true);
-    static Sphere sphere = new Sphere(10);
     @Override
     public void start(Stage stage){
         stage.setHeight(800); //画面の大きさの設定
         stage.setWidth(800);
         Group root = new Group();
 
-        sphere.setTranslateZ(0);
-        root.getChildren().add(sphere);
+        enemy.enemy_Generate(root);
 
         Scene scene = new Scene(root, 320, 320, true, SceneAntialiasing.BALANCED);
         camera.setTranslateZ(-100);
@@ -33,7 +32,7 @@ public class MyFpsGame extends Application{
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                scene.setOnKeyPressed(event -> press(event));
+                scene.setOnKeyPressed(event -> press(event));   
                 scene.setOnMouseClicked(event -> sphereShoot(root));
             }
         };
@@ -63,9 +62,9 @@ public class MyFpsGame extends Application{
         ball.setTranslateX(camera.getTranslateX());
         root.getChildren().add(ball);
         while(true){
-            if(Math.abs(ball.getTranslateZ()) - Math.abs(sphere.getTranslateZ()) < 3.0 &&
-                    Math.abs(ball.getTranslateX()) - Math.abs(sphere.getTranslateX()) < 3.0){
-                root.getChildren().remove(sphere);
+            if(Math.abs(ball.getTranslateZ()) - Math.abs(enemy.get_Enemy().getTranslateZ()) < 3.0 &&
+                    Math.abs(ball.getTranslateX()) - Math.abs(enemy.get_Enemy().getTranslateX()) < 3.0){
+                root.getChildren().remove(enemy.get_Enemy());
                 root.getChildren().remove(ball);
                 System.out.println("ボールが削除されました");
                 break;
@@ -78,15 +77,6 @@ public class MyFpsGame extends Application{
                 ball.setTranslateZ(ball.getTranslateZ()+0.01);
             }
         }
-
-    }
-}
-
-class Enemy{
-    public static double radius = 3;
-    public static ArrayList<Sphere> enemy = new ArrayList<>();
-
-    public void enemyGenerate(){
 
     }
 }
