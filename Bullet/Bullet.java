@@ -11,8 +11,7 @@ public class Bullet{
         ball.setTranslateX(camera.getTranslateX());
         root.getChildren().add(ball);
         while(true){
-            if(Math.abs(ball.getTranslateZ()) - Math.abs(enemy.get_Enemy().getTranslateZ()) < 3.0 &&
-                    Math.abs(ball.getTranslateX()) - Math.abs(enemy.get_Enemy().getTranslateX()) < 3.0){
+            if(distanceCalculation(ball, enemy) < 3){
                 root.getChildren().remove(enemy.get_Enemy());
                 root.getChildren().remove(ball);
                 System.out.println("ボールが削除されました");
@@ -27,5 +26,28 @@ public class Bullet{
             }
         }
 
+    }
+
+    public double getDistanceXCalculation(Sphere ball, Enemy enemy){
+        Sphere enemyTransformX = enemy.get_Enemy();
+        double distanceX = ball.getTranslateX()-enemyTransformX.getTranslateZ();
+        return Math.pow(distanceX, 2);
+    }
+
+    public double getDistanceYCalculation(Sphere ball, Enemy enemy){
+        Sphere enemyTransformY = enemy.get_Enemy();
+        double distanceY = ball.getTranslateY()-enemyTransformY.getTranslateY();
+        return Math.pow(distanceY, 2);
+    }
+
+    public double getDistanceZCalculation(Sphere ball, Enemy enemy){
+        Sphere enemyTranformZ = enemy.get_Enemy();
+        double distanceZ = ball.getTranslateZ()-enemyTranformZ.getTranslateZ();
+        return Math.pow(distanceZ, 2);
+    }
+
+    public double distanceCalculation(Sphere ball, Enemy enemy){
+        double distance = getDistanceXCalculation(ball, enemy) - getDistanceYCalculation(ball, enemy) - getDistanceZCalculation(ball, enemy);
+        return Math.sqrt(distance);
     }
 } 
