@@ -11,7 +11,7 @@ public class Enemy{
     }
 
     public void enemy_Generate(Group root){
-        Sphere enemy = new Sphere(3);
+        Sphere enemy = new Sphere(10);
         enemy.setTranslateZ(0.0);
         enemyList.add(enemy);
         root.getChildren().add(enemyList.get(0));
