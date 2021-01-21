@@ -6,26 +6,39 @@ import Enemy.Enemy;
 
 public class Bullet{
     public void sphereShoot(Group root, PerspectiveCamera camera, Enemy enemy){
-        Sphere ball = new Sphere(10);
-        ball.setTranslateZ(camera.getTranslateZ());
-        ball.setTranslateX(camera.getTranslateX());
-        root.getChildren().add(ball);
+        Sphere bullet = bulletGenerate(root, camera);
         while(true){
-            if(distanceCalculation(ball, enemy) < 3){
+            if(distanceCalculation(bullet, enemy) < 3){
                 root.getChildren().remove(enemy.get_Enemy());
-                root.getChildren().remove(ball);
-                System.out.println("ボールが削除されました");
+                root.getChildren().remove(bullet);
+                enemy.enemy_Remove();
+                enemy.enemy_Generate(root);
+                System.out.println("remove Enemy");
                 break;
             }
-            else if(ball.getTranslateZ() > 1000){
-                root.getChildren().remove(ball);
+            else if(bullet.getTranslateZ() > 100){
+                root.getChildren().remove(bullet);
                 break;
             }
             else{
-                ball.setTranslateZ(ball.getTranslateZ()+0.01);
+                bullet.setTranslateZ(bullet.getTranslateZ()+1.0);
             }
         }
 
+    }
+
+    public Sphere bulletGenerate(Group root, PerspectiveCamera camera){
+        Sphere bullet = new Sphere(5);
+        bullet.setTranslateX(camera.getTranslateX());
+        bullet.setTranslateY(camera.getTranslateY());
+        bullet.setTranslateZ(camera.getTranslateZ());
+        bullet.setRotate(camera.getRotate());
+        return bullet;
+    }
+
+    public double distanceCalculation(Sphere ball, Enemy enemy){
+        double distance = getDistanceXCalculation(ball, enemy) + getDistanceYCalculation(ball, enemy) + getDistanceZCalculation(ball, enemy);
+        return Math.sqrt(distance);
     }
 
     public double getDistanceXCalculation(Sphere ball, Enemy enemy){
@@ -44,10 +57,5 @@ public class Bullet{
         Sphere enemyTranformZ = enemy.get_Enemy();
         double distanceZ = ball.getTranslateZ()-enemyTranformZ.getTranslateZ();
         return Math.pow(distanceZ, 2);
-    }
-
-    public double distanceCalculation(Sphere ball, Enemy enemy){
-        double distance = getDistanceXCalculation(ball, enemy) - getDistanceYCalculation(ball, enemy) - getDistanceZCalculation(ball, enemy);
-        return Math.sqrt(distance);
     }
 } 

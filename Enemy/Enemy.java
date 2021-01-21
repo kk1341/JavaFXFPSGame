@@ -7,7 +7,6 @@ import javafx.scene.shape.Sphere;
 
 public class Enemy{
     ArrayList<Sphere> enemyList;
-    static int count =  0;
     public Enemy(){
         enemyList = new ArrayList<Sphere>();
     }
@@ -17,8 +16,11 @@ public class Enemy{
         Random random = new Random();
         random_SetTransform(enemy, random);
         enemyList.add(enemy);
-        root.getChildren().add(enemyList.get(count));
-        count++;
+        root.getChildren().add(enemyList.get(0));
+    }
+
+    public void enemy_Remove(){
+        enemyList.remove(0);
     }
 
     public Sphere get_Enemy(){
